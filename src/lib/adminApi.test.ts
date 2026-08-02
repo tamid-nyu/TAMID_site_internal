@@ -236,7 +236,7 @@ describe('AdminApiClient', () => {
     const fetchMock = vi.fn().mockResolvedValue(
       jsonResponse(201, {
         success: true,
-        data: { id: 'signup-1', email: 'student@stern.nyu.edu' },
+        data: { id: 'signup-1', email: 'student@nyu.edu' },
       })
     )
     vi.stubGlobal('fetch', fetchMock)
@@ -245,7 +245,7 @@ describe('AdminApiClient', () => {
     await client.createNewsletterSignup({
       firstName: 'Ada',
       lastName: 'Lovelace',
-      email: 'student@stern.nyu.edu',
+      email: 'student@nyu.edu',
     })
 
     expect(fetchMock).toHaveBeenCalledWith('/v1/newsletter-sign-ups', {
@@ -256,7 +256,7 @@ describe('AdminApiClient', () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: 'student@stern.nyu.edu',
+        email: 'student@nyu.edu',
         first_name: 'Ada',
         last_name: 'Lovelace',
       }),
@@ -339,8 +339,8 @@ describe('AdminApiClient', () => {
       'http://localhost:3000/health'
     )
     expect(
-      new AdminApiClient('https://api.nyu-sjba.org/v1', () => 'access-token').getBackendHealthUrl()
-    ).toBe('https://api.nyu-sjba.org/health')
+      new AdminApiClient('https://api.nyu-tamid.org/v1', () => 'access-token').getBackendHealthUrl()
+    ).toBe('https://api.nyu-tamid.org/health')
   })
 
   it('sets local safety to read-only when backend health reports production', async () => {
@@ -391,7 +391,7 @@ describe('AdminApiClient', () => {
           status: 'healthy',
           environment: 'development',
           database: {
-            supabaseProjectRef: 'ivhsrdfhjxtrxvrwswuk',
+            supabaseProjectRef: '<your-project>',
           },
         })
       )

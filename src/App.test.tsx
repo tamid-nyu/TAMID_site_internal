@@ -80,7 +80,7 @@ vi.mock('./lib/adminMedia', async () => {
 
 const session = {
   access_token: 'access-token',
-  user: { email: 'admin@sjba.org' },
+  user: { email: 'admin@nyu-tamid.org' },
 } as Session
 
 describe('App', () => {
@@ -169,7 +169,7 @@ describe('App', () => {
 
     render(<App />)
 
-    expect(await screen.findByText('admin@sjba.org')).toBeInTheDocument()
+    expect(await screen.findByText('admin@nyu-tamid.org')).toBeInTheDocument()
     expect(await screen.findByRole('heading', { name: /overview/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /^refresh$/i })).toBeInTheDocument()
     const navigation = screen.getByRole('navigation', { name: /admin sections/i })
@@ -200,13 +200,13 @@ describe('App', () => {
 
     render(<App />)
 
-    await user.type(await screen.findByLabelText(/email/i), 'admin@sjba.org')
+    await user.type(await screen.findByLabelText(/email/i), 'admin@nyu-tamid.org')
     await user.type(screen.getByLabelText(/password/i), 'secret-password')
     await user.click(screen.getByRole('button', { name: /sign in/i }))
 
     await waitFor(() => {
       expect(authMocks.signInWithPassword).toHaveBeenCalledWith({
-        email: 'admin@sjba.org',
+        email: 'admin@nyu-tamid.org',
         password: 'secret-password',
       })
     })
@@ -236,8 +236,8 @@ describe('App', () => {
       checked: true,
       readOnly: true,
       reasons: ['Backend /health reports environment=production.'],
-      backendUrl: 'https://api.nyu-sjba.org/v1',
-      backendHealthUrl: 'https://api.nyu-sjba.org/health',
+      backendUrl: 'https://api.nyu-tamid.org/v1',
+      backendHealthUrl: 'https://api.nyu-tamid.org/health',
       backendEnvironment: 'production',
     })
     const user = userEvent.setup()
@@ -450,7 +450,7 @@ describe('App', () => {
               {
                 id: 'event-1',
                 title: 'Original title',
-                company: 'SJBA',
+                company: 'TAMID',
                 startTime: '2099-01-01T18:00:00.000Z',
                 endTime: null,
                 location: null,
@@ -523,7 +523,7 @@ describe('App', () => {
           {
             id: 'event-1',
             title: 'Spring Panel',
-            company: 'SJBA',
+            company: 'TAMID',
             startTime: '2026-04-01T16:00:00.000Z',
             endTime: '2026-04-01T17:00:00.000Z',
             location: 'Stern',
@@ -599,7 +599,7 @@ describe('App', () => {
               {
                 id: 'event-1',
                 title: 'Spring Panel',
-                company: 'SJBA',
+                company: 'TAMID',
                 startTime: '2026-04-01T16:00:00.000Z',
                 endTime: '2026-04-01T17:00:00.000Z',
                 location: 'Stern',

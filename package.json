@@ -1,8 +1,8 @@
 {
-  "name": "sjba_site_internal",
+  "name": "tamid_site_internal",
   "version": "0.0.0",
   "private": true,
-  "description": "Admin dashboard for SJBA website",
+  "description": "Admin dashboard for TAMID Group at NYU website",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,11 +17,11 @@
   "keywords": [
     "react",
     "admin",
-    "sjba",
+    "tamid",
     "vite",
     "typescript"
   ],
-  "author": "SJBA",
+  "author": "TAMID Group at NYU",
   "license": "MIT",
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.9",

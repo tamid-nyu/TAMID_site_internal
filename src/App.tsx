@@ -172,7 +172,7 @@ const RESOURCE_CONFIGS: ResourceConfig[] = [
     key: 'events',
     title: 'Events',
     singular: 'Event',
-    description: 'Manage and publish SJBA events that appear on the website.',
+    description: 'Manage and publish TAMID events that appear on the website.',
     icon: CalendarDays,
     searchKeys: ['title', 'company', 'semester', 'location', 'description'],
     columns: [
@@ -323,7 +323,7 @@ const RESOURCE_CONFIGS: ResourceConfig[] = [
     idKey: 'key',
     title: 'Site Config',
     singular: 'Site Config Value',
-    description: 'Manage dynamic website settings consumed by SJBA_site.',
+    description: 'Manage dynamic website settings consumed by the TAMID site.',
     icon: Settings,
     searchKeys: ['key', 'value'],
     columns: [
@@ -2598,7 +2598,7 @@ function LoginScreen() {
     <main className="login-layout">
       <section className="login-panel" aria-label="Login form">
         <div className="login-brand">
-          <span>SJBA</span>
+          <span>TAMID</span>
           <strong>Admin</strong>
         </div>
         <h1>Sign in</h1>
@@ -3080,7 +3080,7 @@ function App() {
         <aside className="sidebar">
           <div className="sidebar-header">
             <div className="brand-lockup">
-              <span>SJBA</span>
+              <span>TAMID</span>
               <strong>Admin</strong>
             </div>
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
