@@ -1,57 +1,66 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
-@import '@fontsource-variable/geist';
-
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-display:
-    'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Garamond, 'Times New Roman', serif;
-  --brand: #4c0d7f;
-  --brand-deep: #20192e;
-  --accent-brand: #c4a86a;
+  /* TAMID brand palette (brand/STYLE.md) */
+  --color-navy: #18274b;
+  --color-sky: #41b5e8;
+  --color-blue-mid: #219cd3;
+  --color-blue-deep: #0f94cf;
+  --color-blue-tint: #f5fbfe;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #f2f2f2;
+  --color-gray-300: #ebeaea;
+  --color-gray-400: #e1e1e1;
+  --color-gray-600: #808080;
+
+  --font-display: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --brand: #18274b;
+  --brand-deep: #18274b;
+  --accent-brand: #41b5e8;
   font-family: var(--font-sans);
   line-height: 1.5;
   font-weight: 400;
-  color: #171220;
-  background-color: #fbf8f3;
+  color: #18274b;
+  background-color: #ffffff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --background: #fbf8f3;
-  --foreground: #171220;
+  --background: #ffffff;
+  --foreground: #18274b;
   --card: oklch(1 0 0);
-  --card-foreground: #171220;
+  --card-foreground: #18274b;
   --popover: oklch(1 0 0);
-  --popover-foreground: #171220;
-  --primary: #4c0d7f;
-  --primary-foreground: #fbf8f3;
-  --secondary: #f7f2e9;
-  --secondary-foreground: #171220;
-  --muted: #f7f2e9;
-  --muted-foreground: #5c556d;
-  --accent: #f7f2e9;
-  --accent-foreground: #20192e;
+  --popover-foreground: #18274b;
+  --primary: #18274b;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #18274b;
+  --muted: #f2f2f2;
+  --muted-foreground: #808080;
+  --accent: #41b5e8;
+  --accent-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: rgba(76, 13, 127, 0.16);
-  --input: rgba(76, 13, 127, 0.22);
-  --ring: rgba(76, 13, 127, 0.44);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --border: #ebeaea;
+  --input: #e1e1e1;
+  --ring: #41b5e8;
+  --chart-1: #41b5e8;
+  --chart-2: #219cd3;
+  --chart-3: #0f94cf;
+  --chart-4: #18274b;
+  --chart-5: #808080;
   --radius: 0.5rem;
   --sidebar: #ffffff;
-  --sidebar-foreground: #171220;
-  --sidebar-primary: #4c0d7f;
-  --sidebar-primary-foreground: #fbf8f3;
-  --sidebar-accent: #f7f2e9;
-  --sidebar-accent-foreground: #171220;
-  --sidebar-border: rgba(76, 13, 127, 0.16);
-  --sidebar-ring: rgba(76, 13, 127, 0.44);
+  --sidebar-foreground: #18274b;
+  --sidebar-primary: #18274b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #41b5e8;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #ebeaea;
+  --sidebar-ring: #41b5e8;
 }
 
 * {
@@ -85,8 +94,8 @@ body {
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-heading: 'Roboto', var(--font-sans);
+  --font-sans: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -153,7 +162,7 @@ body {
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: #41b5e8;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
