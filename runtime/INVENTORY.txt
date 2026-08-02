@@ -1,0 +1,65 @@
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/index.html:12:    <title>SJBA Admin</title>
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:1:# Stern Jewish Business Association Website Admin Panel
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:4:[![CI](https://github.com/ohortig/SJBA_site/actions/workflows/ci.yml/badge.svg)](https://github.com/ohortig/SJBA_site/actions/workflows/ci.yml)
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:5:[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel&logoColor=white)](https://nyu-sjba.org)
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:11:A React admin panel for the Stern Jewish Business Association website.
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:13:**Live Frontend**: [nyu-sjba.org](https://nyu-sjba.org)
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:14:**Live API**: [api.nyu-sjba.org](https://api.nyu-sjba.org)
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:15:**Status Page**: [status.nyu-sjba.org](https://status.nyu-sjba.org)
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:26:Stern Jewish Business Association
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/README.md:28:Email: [sjba@stern.nyu.edu](mailto:sjba@stern.nyu.edu)
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/package.json:2:  "name": "sjba_site_internal",
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/package.json:5:  "description": "Admin dashboard for SJBA website",
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/package.json:20:    "sjba",
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/package.json:24:  "author": "SJBA",
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/package-lock.json:2:  "name": "sjba_site_internal",
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/package-lock.json:8:      "name": "sjba_site_internal",
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/design-qa.md:8:- Desktop screenshot: `/tmp/sjba-storage-desktop.jpg`
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/design-qa.md:9:- File detail screenshot: `/tmp/sjba-storage-details.jpg`
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/design-qa.md:10:- Mobile screenshot: `/tmp/sjba-storage-mobile-final.jpg`
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/design-qa.md:11:- Side-by-side comparison: `/tmp/sjba-storage-comparison.jpg`
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/design-qa.md:20:file/folder icons, and restrained borders. The SJBA shell and purple primary action are intentional
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/design-qa.md:35:- Colors and visual tokens: existing SJBA warm canvas and Stern purple tokens replace Supabase green
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:83:  user: { email: 'admin@sjba.org' },
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:172:    expect(await screen.findByText('admin@sjba.org')).toBeInTheDocument()
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:203:    await user.type(await screen.findByLabelText(/email/i), 'admin@sjba.org')
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:209:        email: 'admin@sjba.org',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:239:      backendUrl: 'https://api.nyu-sjba.org/v1',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:240:      backendHealthUrl: 'https://api.nyu-sjba.org/health',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:453:                company: 'SJBA',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:488:      Promise.resolve(resource === 'semesters' ? [{ id: 'semester-1', semesterName: 'F26' }] : [])
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:517:          { id: 'semester-1', semesterName: 'S26' },
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:518:          { id: 'semester-2', semesterName: 'F26' },
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:526:            company: 'SJBA',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:529:            location: 'Stern',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:602:                company: 'SJBA',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:605:                location: 'Stern',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:653:        return Promise.resolve([{ id: 'semester-1', semesterName: 'F26' }])
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:700:        semesterName: 'F27',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:710:          { id: 'semester-1', semesterName: 'S26' },
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:711:          { id: 'semester-2', semesterName: 'F27' },
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:852:        return Promise.resolve([{ id: 'semester-1', semesterName: 'F26' }])
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.test.tsx:926:        return Promise.resolve([{ id: 'semester-1', semesterName: 'F26' }])
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:175:    description: 'Manage and publish SJBA events that appear on the website.',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:266:    searchKeys: ['semesterName'],
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:267:    columns: [{ key: 'semesterName', label: 'Semester Code' }],
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:270:        key: 'semesterName',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:326:    description: 'Manage dynamic website settings consumed by SJBA_site.',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:474:  const keys = ['title', 'fullName', 'key', 'email', 'semesterName', 'lastName']
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:635:          .map((semester) => readRow(semester, 'semesterName'))
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:663:    const semesterCode = String(readRow(editingRow, 'semesterName') ?? '')
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:874:      const semesterCode = String(form.semesterName ?? '')
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:888:      if (config.key === 'semesters') payload.semesterName = semesterCode
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:1039:    const semesterCode = String(readRow(row, 'semesterName') ?? '')
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:1448:                    {String(readRow(editingRow, 'semesterName'))} is assigned to{' '}
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:1683:                        ) : config.key === 'semesters' && field.key === 'semesterName' ? (
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:2601:          <span>SJBA</span>
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/App.tsx:3083:              <span>SJBA</span>
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/lib/adminTypes.ts:65:  semesterName: string
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/lib/adminApi.test.ts:239:        data: { id: 'signup-1', email: 'student@stern.nyu.edu' },
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/lib/adminApi.test.ts:248:      email: 'student@stern.nyu.edu',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/lib/adminApi.test.ts:259:        email: 'student@stern.nyu.edu',
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/lib/adminApi.test.ts:342:      new AdminApiClient('https://api.nyu-sjba.org/v1', () => 'access-token').getBackendHealthUrl()
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/src/lib/adminApi.test.ts:343:    ).toBe('https://api.nyu-sjba.org/health')
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/LICENSE:3:Copyright (c) 2026 Stern Jewish Business Association
+/Users/aaron_7nh0yzm/tamid-nyu/TAMID_site_internal/LICENSE:23:Adapted from the open-source SJBA admin panel template (MIT).
