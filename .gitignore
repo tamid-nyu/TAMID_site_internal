@@ -26,3 +26,7 @@ dist-ssr
 # Environment variables
 .env
 .env.*
+# Public production build config (client-side values only: Supabase URL +
+# publishable/anon key + backend/bucket URLs; NO secret keys). Committed so
+# Vercel's `vite build` bakes them in without per-project env setup.
+!.env.production
