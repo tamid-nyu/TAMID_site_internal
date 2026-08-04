@@ -34,11 +34,25 @@
   color: var(--brand);
 }
 
+.brand-logo {
+  display: block;
+  width: auto;
+}
+
+.login-brand .brand-logo {
+  height: 2.2rem;
+}
+
+.brand-lockup .brand-logo {
+  height: 1.7rem;
+}
+
 .brand-lockup strong,
 .login-brand strong {
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--muted-foreground);
 }
 
 .sidebar-nav {

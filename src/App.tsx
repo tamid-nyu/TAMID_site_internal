@@ -2598,7 +2598,7 @@ function LoginScreen() {
     <main className="login-layout">
       <section className="login-panel" aria-label="Login form">
         <div className="login-brand">
-          <span>TAMID</span>
+          <img src="/tamid-logo-clear.png" alt="TAMID Group" className="brand-logo" />
           <strong>Admin</strong>
         </div>
         <h1>Sign in</h1>
@@ -3080,7 +3080,7 @@ function App() {
         <aside className="sidebar">
           <div className="sidebar-header">
             <div className="brand-lockup">
-              <span>TAMID</span>
+              <img src="/tamid-logo-clear.png" alt="TAMID Group" className="brand-logo" />
               <strong>Admin</strong>
             </div>
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
