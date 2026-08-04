@@ -43,8 +43,16 @@
   height: 2.2rem;
 }
 
+.brand-lockup {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+
 .brand-lockup .brand-logo {
-  height: 1.7rem;
+  height: auto;
+  width: 100%;
+  max-width: 10.5rem;
 }
 
 .brand-lockup strong,
