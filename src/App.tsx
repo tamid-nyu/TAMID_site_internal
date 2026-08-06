@@ -127,6 +127,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/sonner'
+import { MemberImportDialog } from '@/components/MemberImportDialog'
 
 type FieldType =
   'text' | 'email' | 'url' | 'textarea' | 'number' | 'datetime' | 'boolean' | 'duration' | 'media'
@@ -1161,14 +1162,24 @@ function ResourceScreen({
           <h1>{config.title}</h1>
           <p>{config.description}</p>
         </div>
-        {config.allowCreate === false ? null : (
-          <Button type="button" onClick={openCreate} disabled={readOnly}>
-            <Plus data-icon="inline-start" />
-            {config.key === 'newsletter-signups'
-              ? 'Subscribe through Mailchimp'
-              : `Create ${config.singular}`}
-          </Button>
-        )}
+        <div className="section-heading-actions">
+          {config.key === 'members' ? (
+            <MemberImportDialog
+              api={api}
+              semesterOptions={semesterOptions}
+              readOnly={readOnly}
+              onImported={loadRows}
+            />
+          ) : null}
+          {config.allowCreate === false ? null : (
+            <Button type="button" onClick={openCreate} disabled={readOnly}>
+              <Plus data-icon="inline-start" />
+              {config.key === 'newsletter-signups'
+                ? 'Subscribe through Mailchimp'
+                : `Create ${config.singular}`}
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="toolbar">

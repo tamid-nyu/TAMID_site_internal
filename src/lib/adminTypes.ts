@@ -65,6 +65,19 @@ export interface Semester {
   semesterName: string
 }
 
+export interface BulkMemberInput {
+  first_name: string
+  last_name: string
+  email?: string | null
+  semester: string
+}
+
+export interface BulkMemberSummary {
+  created: number
+  skipped: number
+  errors: Array<{ row: number; message: string }>
+}
+
 export interface ContactRequest {
   id: string
   createdAt: string

@@ -1,6 +1,8 @@
 import type {
   AdminResourceKey,
   ApiEnvelope,
+  BulkMemberInput,
+  BulkMemberSummary,
   BoardHeadshotReplacement,
   EventFlyerReplacement,
   MediaReplacementBody,
@@ -335,6 +337,15 @@ export class AdminApiClient {
     const response = await this.request<ApiEnvelope<T>>(resource, {
       method: 'POST',
       body: payload,
+    })
+    return response.data
+  }
+
+  async bulkCreateMembers(members: BulkMemberInput[]): Promise<BulkMemberSummary> {
+    this.assertWritesAllowed()
+    const response = await this.request<ApiEnvelope<BulkMemberSummary>>('members/bulk', {
+      method: 'POST',
+      body: { members },
     })
     return response.data
   }
