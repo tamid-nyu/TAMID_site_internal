@@ -70,6 +70,11 @@ const CAMPUS_EMAIL_KEYS = new Set([
 ])
 const PERSONAL_EMAIL_KEYS = new Set(['personalemail', 'personalemailaddress', 'homeemail'])
 const EMAIL_KEYS = new Set(['email', 'emailaddress', 'emailaddr', 'e'])
+
+// Membership status can live in a Track/Status column. Rows marked as on a
+// leave of absence or dismissed are NOT recognized members and are excluded.
+const STATUS_KEYS = new Set(['track', 'status', 'membershipstatus', 'memberstatus'])
+const EXCLUDED_STATUSES = new Set(['leaveofabsence', 'loa', 'dismissed', 'dismiss'])
 const SEMESTER_KEYS = new Set(['semester', 'term', 'sem'])
 const FULLNAME_KEYS = new Set(['name', 'fullname', 'membername'])
 
@@ -109,6 +114,7 @@ export function MemberImportDialog({
   const [chosenSemester, setChosenSemester] = useState('')
   const [newSemester, setNewSemester] = useState('')
   const [parseError, setParseError] = useState('')
+  const [excludedCount, setExcludedCount] = useState(0)
   const [isImporting, setIsImporting] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -128,6 +134,7 @@ export function MemberImportDialog({
     setChosenSemester('')
     setNewSemester('')
     setParseError('')
+    setExcludedCount(0)
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
@@ -171,6 +178,7 @@ export function MemberImportDialog({
       const personalEmailKey = findKey(PERSONAL_EMAIL_KEYS)
       const genericEmailKey = findKey(EMAIL_KEYS)
       const semesterKey = findKey(SEMESTER_KEYS)
+      const statusKey = findKey(STATUS_KEYS)
       const fullNameKey = findKey(FULLNAME_KEYS)
 
       if (!firstKey && !lastKey && !fullNameKey) {
@@ -184,7 +192,14 @@ export function MemberImportDialog({
       const cell = (row: Record<string, unknown>, key?: string): string =>
         key ? String(row[key] ?? '').trim() : ''
 
-      const parsed: ParsedRow[] = json.map((row) => {
+      // Exclude non-recognized members: rows whose Track/Status marks them as
+      // on a Leave of Absence or Dismissed.
+      const isExcluded = (row: Record<string, unknown>): boolean =>
+        Boolean(statusKey) && EXCLUDED_STATUSES.has(normalizeHeader(cell(row, statusKey)))
+      const kept = json.filter((row) => !isExcluded(row))
+      const excluded = json.length - kept.length
+
+      const parsed: ParsedRow[] = kept.map((row) => {
         let firstName = cell(row, firstKey)
         let lastName = cell(row, lastKey)
         if ((!firstName || !lastName) && fullNameKey) {
@@ -203,6 +218,7 @@ export function MemberImportDialog({
       })
 
       setHasSemesterColumn(Boolean(semesterKey))
+      setExcludedCount(excluded)
       setRows(parsed)
     } catch (error) {
       setParseError(error instanceof Error ? error.message : 'Failed to parse the file.')
@@ -340,6 +356,12 @@ export function MemberImportDialog({
               <p className="text-sm">
                 <strong>{rows.length}</strong> row{rows.length === 1 ? '' : 's'} parsed ·{' '}
                 <strong>{validCount}</strong> importable
+                {excludedCount > 0 ? (
+                  <>
+                    {' '}
+                    · <strong>{excludedCount}</strong> excluded (Leave of Absence / Dismissed)
+                  </>
+                ) : null}
               </p>
               <div className="max-h-64 overflow-auto rounded-md border">
                 <Table>
