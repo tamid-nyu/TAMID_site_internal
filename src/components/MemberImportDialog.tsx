@@ -57,7 +57,19 @@ const normalizeHeader = (header: string): string => header.toLowerCase().replace
 
 const FIRST_KEYS = new Set(['firstname', 'first', 'fname', 'givenname'])
 const LAST_KEYS = new Set(['lastname', 'last', 'lname', 'surname', 'familyname'])
-const EMAIL_KEYS = new Set(['email', 'emailaddress', 'e'])
+// Email can come from several columns. Rosters often have separate campus
+// (nyu.edu) and personal email columns; prefer campus, then personal, then a
+// generic "email" column, using the first non-empty value per row.
+const CAMPUS_EMAIL_KEYS = new Set([
+  'campusemail',
+  'schoolemail',
+  'nyuemail',
+  'universityemail',
+  'collegeemail',
+  'studentemail',
+])
+const PERSONAL_EMAIL_KEYS = new Set(['personalemail', 'personalemailaddress', 'homeemail'])
+const EMAIL_KEYS = new Set(['email', 'emailaddress', 'emailaddr', 'e'])
 const SEMESTER_KEYS = new Set(['semester', 'term', 'sem'])
 const FULLNAME_KEYS = new Set(['name', 'fullname', 'membername'])
 
@@ -155,13 +167,15 @@ export function MemberImportDialog({
 
       const firstKey = findKey(FIRST_KEYS)
       const lastKey = findKey(LAST_KEYS)
-      const emailKey = findKey(EMAIL_KEYS)
+      const campusEmailKey = findKey(CAMPUS_EMAIL_KEYS)
+      const personalEmailKey = findKey(PERSONAL_EMAIL_KEYS)
+      const genericEmailKey = findKey(EMAIL_KEYS)
       const semesterKey = findKey(SEMESTER_KEYS)
       const fullNameKey = findKey(FULLNAME_KEYS)
 
       if (!firstKey && !lastKey && !fullNameKey) {
         setParseError(
-          'Could not find a First Name / Last Name (or a Name) column. Accepted headers: First Name, Last Name, Email, Semester, or a single Name column.'
+          'Could not find a First Name / Last Name (or a Name) column. Accepted headers include: First Name, Last Name, a single Name column; Email / Campus Email / Personal Email; and optionally Semester.'
         )
         setRows([])
         return
@@ -178,10 +192,12 @@ export function MemberImportDialog({
           if (!firstName) firstName = split.first
           if (!lastName) lastName = split.last
         }
+        const email =
+          cell(row, campusEmailKey) || cell(row, personalEmailKey) || cell(row, genericEmailKey)
         return {
           firstName,
           lastName,
-          email: cell(row, emailKey),
+          email,
           semester: cell(row, semesterKey),
         }
       })
