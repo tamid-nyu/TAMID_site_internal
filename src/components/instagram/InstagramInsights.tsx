@@ -51,10 +51,6 @@ export function InstagramOverview({ api }: Props) {
     void load(days)
   }, [load, days])
 
-  const followerSeries = Array.isArray(data?.daily.follower_count) ? data.daily.follower_count : []
-  const followerChange =
-    followerSeries.length > 1 ? followerSeries.reduce((sum, p) => sum + p.value, 0) : undefined
-
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-2">
@@ -90,26 +86,26 @@ export function InstagramOverview({ api }: Props) {
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Stat label="Views" value={num(data.totals.views)} hint="Times posts were seen" />
-            <Stat label="Profile views" value={num(data.totals.profile_views)} />
+            <Stat label="Profile views" value={num(data.totals.profileViews)} />
             <Stat
               label="Website clicks"
-              value={num(data.totals.website_clicks)}
+              value={num(data.totals.websiteClicks)}
               hint="Taps on the bio link"
             />
-            <Stat label="Accounts engaged" value={num(data.totals.accounts_engaged)} />
-            <Stat label="Interactions" value={num(data.totals.total_interactions)} />
+            <Stat label="Accounts engaged" value={num(data.totals.accountsEngaged)} />
+            <Stat label="Interactions" value={num(data.totals.totalInteractions)} />
             <Stat
               label="Followers gained"
-              value={followerChange !== undefined ? num(followerChange) : '—'}
+              value={num(data.followersGained)}
               hint={`Net over ${data.windowDays} days`}
             />
           </div>
 
-          {data.totals.website_clicks === 0 ? (
+          {data.totals.websiteClicks === 0 ? (
             <Alert>
               <AlertTitle>No bio link clicks in this window</AlertTitle>
               <AlertDescription>
-                The profile was viewed {num(data.totals.profile_views)} times but the bio link was
+                The profile was viewed {num(data.totals.profileViews)} times but the bio link was
                 never tapped. Worth checking the link works and that posts point people to it.
               </AlertDescription>
             </Alert>
@@ -152,7 +148,7 @@ export function InstagramPosts({ api }: Props) {
     )
   if (!data) return null
 
-  const sorted = [...data.posts].sort((a, b) => (b.reach ?? 0) - (a.reach ?? 0))
+  const sorted = [...data.posts].sort((a, b) => (b.metrics?.reach ?? 0) - (a.metrics?.reach ?? 0))
 
   return (
     <div className="space-y-6">
@@ -210,22 +206,22 @@ export function InstagramPosts({ api }: Props) {
                     ) : null}
                   </div>
 
-                  {post.insightsError ? (
-                    <p className="text-muted-foreground mt-2 text-xs">
-                      No insights available for this post.
-                    </p>
-                  ) : (
+                  {post.metrics ? (
                     <div className="text-muted-foreground mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
-                      <span>{num(post.views)} views</span>
-                      <span>{num(post.reach)} reach</span>
-                      <span>{num(post.likes)} likes</span>
-                      <span>{num(post.comments)} comments</span>
-                      <span>{num(post.saved)} saves</span>
-                      <span>{num(post.shares)} shares</span>
-                      {post.engagementRate !== null && post.engagementRate !== undefined ? (
+                      <span>{num(post.metrics.views)} views</span>
+                      <span>{num(post.metrics.reach)} reach</span>
+                      <span>{num(post.metrics.likes)} likes</span>
+                      <span>{num(post.metrics.comments)} comments</span>
+                      <span>{num(post.metrics.saved)} saves</span>
+                      <span>{num(post.metrics.shares)} shares</span>
+                      {post.engagementRate !== null ? (
                         <span className="font-medium">{post.engagementRate}% engagement</span>
                       ) : null}
                     </div>
+                  ) : (
+                    <p className="text-muted-foreground mt-2 text-xs">
+                      No insights available for this post.
+                    </p>
                   )}
 
                   <p className="text-muted-foreground mt-1 text-xs">

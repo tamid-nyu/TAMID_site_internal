@@ -234,34 +234,39 @@ export interface InstagramDailyPoint {
 export interface InstagramAccountInsights {
   windowDays: number
   totals: {
-    views?: number
-    profile_views?: number
-    website_clicks?: number
-    accounts_engaged?: number
-    total_interactions?: number
+    views: number
+    profileViews: number
+    websiteClicks: number
+    accountsEngaged: number
+    totalInteractions: number
   }
   daily: {
-    reach?: InstagramDailyPoint[] | number
-    follower_count?: InstagramDailyPoint[] | number
+    reach: InstagramDailyPoint[]
+    followerCount: InstagramDailyPoint[]
   }
+  followersGained: number
+}
+
+export interface InstagramPostMetrics {
+  reach: number
+  views: number
+  likes: number
+  comments: number
+  saved: number
+  shares: number
+  totalInteractions: number
 }
 
 export interface InstagramPostInsight {
   id: string
-  posted?: string
-  type?: string
-  permalink?: string
+  posted: string | null
+  type: string | null
+  permalink: string | null
   caption: string
-  thumbnail?: string
-  reach?: number
-  views?: number
-  likes?: number
-  comments?: number
-  saved?: number
-  shares?: number
-  total_interactions?: number
-  engagementRate?: number | null
-  insightsError?: string
+  thumbnail: string | null
+  metrics: InstagramPostMetrics | null
+  engagementRate: number | null
+  insightsError: string | null
 }
 
 export interface InstagramPostInsights {
@@ -272,4 +277,5 @@ export interface InstagramPostInsights {
 export interface InstagramAudience {
   breakdown: string
   rows: Array<{ value: string; followers: number }>
+  totalFollowers: number
 }
