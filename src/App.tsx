@@ -19,9 +19,7 @@ import {
   FileArchive,
   FileImage,
   FileText,
-  Camera,
   Folder,
-  Globe,
   FolderOpen,
   FolderPlus,
   GraduationCap,
@@ -48,6 +46,7 @@ import { toast } from 'sonner'
 import { supabase } from './lib/supabase'
 import { ADMIN_IDLE_TIMEOUT_MS, useIdleSignOut } from './lib/useIdleSignOut'
 import { InstagramSection } from './components/instagram/InstagramSection'
+import { TAssistant } from './components/TAssistant'
 import { INSTAGRAM_SCREENS, type InstagramScreen } from './components/instagram/screens'
 import { AdminApiClient, AdminApiError, createAdminApiClient, fileToBase64 } from './lib/adminApi'
 import type { LocalProductionSafetyStatus } from './lib/adminApi'
@@ -3163,7 +3162,6 @@ function App() {
               variant={mode === 'website' ? 'default' : 'ghost'}
               onClick={() => setMode('website')}
             >
-              <Globe data-icon="inline-start" />
               Website
             </Button>
             <Button
@@ -3171,7 +3169,6 @@ function App() {
               variant={mode === 'instagram' ? 'default' : 'ghost'}
               onClick={() => setMode('instagram')}
             >
-              <Camera data-icon="inline-start" />
               Instagram
             </Button>
           </div>
@@ -3319,6 +3316,8 @@ function App() {
           ) : null}
         </section>
       </main>
+      {canLoadAdminScreens ? <TAssistant api={api} /> : null}
+      {canLoadAdminScreens ? <TAssistant api={api} /> : null}
       <Toaster />
     </TooltipProvider>
   )

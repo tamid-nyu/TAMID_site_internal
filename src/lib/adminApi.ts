@@ -21,6 +21,10 @@ import type {
   InstagramAccountInsights,
   InstagramPostInsights,
   InstagramAudience,
+  AiStatus,
+  PostGenerationResult,
+  AssistantResult,
+  AssistantTurn,
 } from './adminTypes'
 
 type AdminErrorKind = 'unauthenticated' | 'forbidden' | 'request'
@@ -527,6 +531,28 @@ export class AdminApiClient {
     const response = await this.request<ApiEnvelope<InstagramAudience>>(
       `instagram/insights/audience${toQueryString({ breakdown })}`
     )
+    return response.data
+  }
+
+  async getAiStatus(): Promise<AiStatus> {
+    const response = await this.request<ApiEnvelope<AiStatus>>('assistant/status')
+    return response.data
+  }
+
+  /** Generates a draft post. Nothing is staged or published by this call. */
+  async generatePost(brief: string): Promise<PostGenerationResult> {
+    const response = await this.request<ApiEnvelope<PostGenerationResult>>(
+      'assistant/generate-post',
+      { method: 'POST', body: { brief } }
+    )
+    return response.data
+  }
+
+  async askAssistant(question: string, history: AssistantTurn[] = []): Promise<AssistantResult> {
+    const response = await this.request<ApiEnvelope<AssistantResult>>('assistant/ask', {
+      method: 'POST',
+      body: { question, history },
+    })
     return response.data
   }
 

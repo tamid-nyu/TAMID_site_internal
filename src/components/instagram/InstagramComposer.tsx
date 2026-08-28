@@ -3,6 +3,7 @@ import type { AdminApiClient } from '@/lib/adminApi'
 import { AdminApiError, fileToBase64 } from '@/lib/adminApi'
 import type { CaptionCheck } from '@/lib/adminTypes'
 import { Upload } from 'lucide-react'
+import { PostGenerator } from './PostGenerator'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -232,8 +233,22 @@ export function InstagramComposer({ api, onPublished }: Props) {
     !overHashtagLimit &&
     busy === ''
 
+  /** Seeds the composer from a generated draft, discarding any stale staging. */
+  const useDraft = (draft: { caption: string; imageUrl: string }) => {
+    setCaption(draft.caption)
+    setImageUrl(draft.imageUrl)
+    setCheck(null)
+    setCreationId('')
+    setStagedSnapshot(null)
+    setError('')
+    setPublishedUrl('')
+    setImageOk(null)
+  }
+
   return (
     <div className="space-y-6">
+      <PostGenerator api={api} onUse={useDraft} />
+
       <Card>
         <CardHeader>
           <CardTitle>New post</CardTitle>

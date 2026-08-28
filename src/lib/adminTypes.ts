@@ -279,3 +279,35 @@ export interface InstagramAudience {
   rows: Array<{ value: string; followers: number }>
   totalFollowers: number
 }
+
+export interface AiStatus {
+  assistant: boolean
+  postGeneration: boolean
+  missing: string[]
+}
+
+export interface GeneratedPost {
+  caption: string
+  hook: string
+  hashtags: string[]
+  imageUrl: string | null
+  imagePrompt: string | null
+  altText: string
+  rationale: string
+}
+
+export interface PostGenerationResult {
+  post: GeneratedPost
+  captionCheck: CaptionCheck
+  toolsUsed: string[]
+}
+
+export interface AssistantTurn {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+export interface AssistantResult {
+  answer: string
+  toolsUsed: string[]
+}
