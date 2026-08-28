@@ -18,6 +18,9 @@ import type {
   InstagramPublished,
   InstagramQuota,
   CaptionCheck,
+  InstagramAccountInsights,
+  InstagramPostInsights,
+  InstagramAudience,
 } from './adminTypes'
 
 type AdminErrorKind = 'unauthenticated' | 'forbidden' | 'request'
@@ -503,6 +506,27 @@ export class AdminApiClient {
       method: 'POST',
       body: { creationId, confirm: true },
     })
+    return response.data
+  }
+
+  async getInstagramAccountInsights(days = 28): Promise<InstagramAccountInsights> {
+    const response = await this.request<ApiEnvelope<InstagramAccountInsights>>(
+      `instagram/insights/account${toQueryString({ days })}`
+    )
+    return response.data
+  }
+
+  async getInstagramPostInsights(limit = 10): Promise<InstagramPostInsights> {
+    const response = await this.request<ApiEnvelope<InstagramPostInsights>>(
+      `instagram/insights/posts${toQueryString({ limit })}`
+    )
+    return response.data
+  }
+
+  async getInstagramAudience(breakdown = 'city'): Promise<InstagramAudience> {
+    const response = await this.request<ApiEnvelope<InstagramAudience>>(
+      `instagram/insights/audience${toQueryString({ breakdown })}`
+    )
     return response.data
   }
 

@@ -225,3 +225,50 @@ export interface InstagramQuota {
   config?: { quota_total?: number; quota_duration?: number }
   quota_usage?: number
 }
+
+export interface InstagramDailyPoint {
+  date: string
+  value: number
+}
+
+export interface InstagramAccountInsights {
+  windowDays: number
+  totals: {
+    views?: number
+    profile_views?: number
+    website_clicks?: number
+    accounts_engaged?: number
+    total_interactions?: number
+  }
+  daily: {
+    reach?: InstagramDailyPoint[] | number
+    follower_count?: InstagramDailyPoint[] | number
+  }
+}
+
+export interface InstagramPostInsight {
+  id: string
+  posted?: string
+  type?: string
+  permalink?: string
+  caption: string
+  reach?: number
+  views?: number
+  likes?: number
+  comments?: number
+  saved?: number
+  shares?: number
+  total_interactions?: number
+  engagementRate?: number | null
+  insightsError?: string
+}
+
+export interface InstagramPostInsights {
+  summary: { postsMeasured: number; medianReach: number; medianViews: number }
+  posts: InstagramPostInsight[]
+}
+
+export interface InstagramAudience {
+  breakdown: string
+  rows: Array<{ value: string; followers: number }>
+}

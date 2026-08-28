@@ -46,7 +46,8 @@ import {
 import { toast } from 'sonner'
 import { supabase } from './lib/supabase'
 import { ADMIN_IDLE_TIMEOUT_MS, useIdleSignOut } from './lib/useIdleSignOut'
-import { InstagramPanel } from './components/InstagramPanel'
+import { InstagramSection } from './components/instagram/InstagramSection'
+import { INSTAGRAM_SCREENS, type InstagramScreen } from './components/instagram/screens'
 import { AdminApiClient, AdminApiError, createAdminApiClient, fileToBase64 } from './lib/adminApi'
 import type { LocalProductionSafetyStatus } from './lib/adminApi'
 import {
@@ -168,7 +169,9 @@ interface ResourceConfig {
   }
 }
 
-type ActiveSection = AdminResourceKey | 'overview' | 'storage' | 'instagram'
+type ActiveSection = AdminResourceKey | 'overview' | 'storage'
+
+type ConsoleMode = 'website' | 'instagram'
 
 const RESOURCE_CONFIGS: ResourceConfig[] = [
   {
@@ -2899,6 +2902,8 @@ function App() {
   const [session, setSession] = useState<Session | null>(null)
   const [isCheckingSession, setIsCheckingSession] = useState(true)
   const [activeSection, setActiveSection] = useState<ActiveSection>('overview')
+  const [mode, setMode] = useState<ConsoleMode>('website')
+  const [igScreen, setIgScreen] = useState<InstagramScreen>('overview')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [resourceSorts, setResourceSorts] = useState<Record<string, SortState>>({})
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
@@ -3144,57 +3149,78 @@ function App() {
                     <Folder data-icon="inline-start" />
                     Storage
                   </Button>
-                  <Button
-                    type="button"
-                    variant={activeSection === 'instagram' ? 'default' : 'ghost'}
-                    onClick={() => requestMobileNavigation('instagram')}
-                  >
-                    <Camera data-icon="inline-start" />
-                    Instagram
-                  </Button>
                 </nav>
               </SheetContent>
             </Sheet>
           </div>
-          <nav className="sidebar-nav" aria-label="Admin sections">
+          {/* Two products in one console: the website's content sections and the
+              Instagram surfaces. A mode switch keeps thirteen entries from
+              competing in a single list. */}
+          <div className="mode-switch" role="group" aria-label="Console area">
             <Button
               type="button"
-              variant={activeSection === 'overview' ? 'default' : 'ghost'}
-              onClick={() => requestNavigation('overview')}
+              variant={mode === 'website' ? 'default' : 'ghost'}
+              onClick={() => setMode('website')}
             >
-              <Database data-icon="inline-start" />
-              Overview
-            </Button>
-            {RESOURCE_CONFIGS.map((resource) => {
-              const Icon = resource.icon
-              return (
-                <Button
-                  type="button"
-                  key={resource.key}
-                  variant={activeSection === resource.key ? 'default' : 'ghost'}
-                  onClick={() => requestNavigation(resource.key)}
-                >
-                  <Icon data-icon="inline-start" />
-                  {resource.title}
-                </Button>
-              )
-            })}
-            <Button
-              type="button"
-              variant={activeSection === 'storage' ? 'default' : 'ghost'}
-              onClick={() => requestNavigation('storage')}
-            >
-              <Folder data-icon="inline-start" />
-              Storage
+              Website
             </Button>
             <Button
               type="button"
-              variant={activeSection === 'instagram' ? 'default' : 'ghost'}
-              onClick={() => requestNavigation('instagram')}
+              variant={mode === 'instagram' ? 'default' : 'ghost'}
+              onClick={() => setMode('instagram')}
             >
               <Camera data-icon="inline-start" />
               Instagram
             </Button>
+          </div>
+          <nav className="sidebar-nav" aria-label="Admin sections">
+            {mode === 'website' ? (
+              <Button
+                type="button"
+                variant={activeSection === 'overview' ? 'default' : 'ghost'}
+                onClick={() => requestNavigation('overview')}
+              >
+                <Database data-icon="inline-start" />
+                Overview
+              </Button>
+            ) : null}
+            {mode === 'website' &&
+              RESOURCE_CONFIGS.map((resource) => {
+                const Icon = resource.icon
+                return (
+                  <Button
+                    type="button"
+                    key={resource.key}
+                    variant={activeSection === resource.key ? 'default' : 'ghost'}
+                    onClick={() => requestNavigation(resource.key)}
+                  >
+                    <Icon data-icon="inline-start" />
+                    {resource.title}
+                  </Button>
+                )
+              })}
+            {mode === 'website' ? (
+              <Button
+                type="button"
+                variant={activeSection === 'storage' ? 'default' : 'ghost'}
+                onClick={() => requestNavigation('storage')}
+              >
+                <Folder data-icon="inline-start" />
+                Storage
+              </Button>
+            ) : null}
+            {mode === 'instagram'
+              ? INSTAGRAM_SCREENS.map((s) => (
+                  <Button
+                    key={s.key}
+                    type="button"
+                    variant={igScreen === s.key ? 'default' : 'ghost'}
+                    onClick={() => setIgScreen(s.key)}
+                  >
+                    {s.label}
+                  </Button>
+                ))
+              : null}
           </nav>
 
           <div className="sidebar-notices">
@@ -3255,7 +3281,7 @@ function App() {
           {isLocalDev && (isSafetyChecking || isReadOnly) ? (
             <LocalSafetyNotice status={safetyStatus} />
           ) : null}
-          {canLoadAdminScreens && activeSection === 'overview' ? (
+          {canLoadAdminScreens && mode === 'website' && activeSection === 'overview' ? (
             <OverviewScreen
               api={api}
               resources={RESOURCE_CONFIGS}
@@ -3264,7 +3290,7 @@ function App() {
               onNavigate={requestNavigation}
             />
           ) : null}
-          {canLoadAdminScreens && activeConfig ? (
+          {canLoadAdminScreens && mode === 'website' && activeConfig ? (
             <ResourceScreen
               key={activeConfig.key}
               api={api}
@@ -3278,12 +3304,12 @@ function App() {
               onDirtyChange={setHasUnsavedChanges}
             />
           ) : null}
-          {canLoadAdminScreens && activeSection === 'storage' ? (
+          {canLoadAdminScreens && mode === 'website' && activeSection === 'storage' ? (
             <StorageScreen api={api} onAdminError={handleAdminError} readOnly={isReadOnly} />
           ) : null}
 
-          {canLoadAdminScreens && activeSection === 'instagram' ? (
-            <InstagramPanel api={api} />
+          {canLoadAdminScreens && mode === 'instagram' ? (
+            <InstagramSection api={api} screen={igScreen} />
           ) : null}
         </section>
       </main>

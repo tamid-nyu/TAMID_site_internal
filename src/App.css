@@ -1388,3 +1388,16 @@
     grid-column: auto;
   }
 }
+
+/* Website / Instagram switch at the top of the sidebar. */
+.mode-switch {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.75rem;
+}
+
+.mode-switch button {
+  flex: 1;
+}
