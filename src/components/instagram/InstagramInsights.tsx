@@ -171,42 +171,68 @@ export function InstagramPosts({ api }: Props) {
           {sorted.map((post, i) => (
             <div key={post.id}>
               {i > 0 ? <Separator className="mb-4" /> : null}
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <p className="max-w-xl text-sm">
-                  {post.caption ? post.caption.slice(0, 120) : <em>No caption</em>}
-                  {post.caption.length > 120 ? '…' : ''}
-                </p>
-                {post.permalink ? (
+              <div className="flex gap-4">
+                {post.thumbnail ? (
                   <a
-                    href={post.permalink}
+                    href={post.permalink ?? post.thumbnail}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs underline"
+                    className="shrink-0"
                   >
-                    open
+                    <img
+                      src={post.thumbnail}
+                      alt=""
+                      loading="lazy"
+                      className="bg-muted h-24 w-24 rounded-md border object-cover"
+                    />
                   </a>
-                ) : null}
-              </div>
-              {post.insightsError ? (
-                <p className="text-muted-foreground mt-2 text-xs">
-                  No insights available for this post.
-                </p>
-              ) : (
-                <div className="text-muted-foreground mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
-                  <span>{num(post.views)} views</span>
-                  <span>{num(post.reach)} reach</span>
-                  <span>{num(post.likes)} likes</span>
-                  <span>{num(post.comments)} comments</span>
-                  <span>{num(post.saved)} saves</span>
-                  <span>{num(post.shares)} shares</span>
-                  {post.engagementRate !== null && post.engagementRate !== undefined ? (
-                    <span className="font-medium">{post.engagementRate}% engagement</span>
-                  ) : null}
+                ) : (
+                  <div className="bg-muted text-muted-foreground flex h-24 w-24 shrink-0 items-center justify-center rounded-md border text-xs">
+                    no image
+                  </div>
+                )}
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <p className="max-w-xl text-sm">
+                      {post.caption ? post.caption.slice(0, 120) : <em>No caption</em>}
+                      {post.caption.length > 120 ? '…' : ''}
+                    </p>
+                    {post.permalink ? (
+                      <a
+                        href={post.permalink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xs underline"
+                      >
+                        open
+                      </a>
+                    ) : null}
+                  </div>
+
+                  {post.insightsError ? (
+                    <p className="text-muted-foreground mt-2 text-xs">
+                      No insights available for this post.
+                    </p>
+                  ) : (
+                    <div className="text-muted-foreground mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+                      <span>{num(post.views)} views</span>
+                      <span>{num(post.reach)} reach</span>
+                      <span>{num(post.likes)} likes</span>
+                      <span>{num(post.comments)} comments</span>
+                      <span>{num(post.saved)} saves</span>
+                      <span>{num(post.shares)} shares</span>
+                      {post.engagementRate !== null && post.engagementRate !== undefined ? (
+                        <span className="font-medium">{post.engagementRate}% engagement</span>
+                      ) : null}
+                    </div>
+                  )}
+
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    {post.posted ? new Date(post.posted).toLocaleDateString() : ''} · {post.type}
+                  </p>
                 </div>
-              )}
-              <p className="text-muted-foreground mt-1 text-xs">
-                {post.posted ? new Date(post.posted).toLocaleDateString() : ''} · {post.type}
-              </p>
+              </div>
             </div>
           ))}
         </CardContent>

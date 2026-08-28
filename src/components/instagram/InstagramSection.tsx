@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
-import type { InstagramScreen } from './screens'
+import { INSTAGRAM_SCREEN_META, type InstagramScreen } from './screens'
 import { InstagramComposer } from './InstagramComposer'
 import { InstagramAudiencePanel, InstagramOverview, InstagramPosts } from './InstagramInsights'
 
@@ -75,8 +75,19 @@ export function InstagramSection({ api, screen }: Props) {
       ? quota.config.quota_total - (quota.quota_usage ?? 0)
       : undefined
 
+  const heading = INSTAGRAM_SCREEN_META[screen]
+
   return (
-    <div className="space-y-6">
+    <section className="admin-section space-y-6">
+      {/* Same markup as the website sections, so padding and type scale match
+          rather than the content starting flush against the header rule. */}
+      <div className="section-heading">
+        <div>
+          <h1>{heading.title}</h1>
+          <p>{heading.description}</p>
+        </div>
+      </div>
+
       <div className="flex flex-wrap items-center gap-3">
         <span className="font-medium">@{status.account?.username}</span>
         <Badge variant="secondary">Connected</Badge>
@@ -93,6 +104,6 @@ export function InstagramSection({ api, screen }: Props) {
       {screen === 'composer' ? <InstagramComposer api={api} onPublished={refresh} /> : null}
       {screen === 'posts' ? <InstagramPosts api={api} /> : null}
       {screen === 'audience' ? <InstagramAudiencePanel api={api} /> : null}
-    </div>
+    </section>
   )
 }

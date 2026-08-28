@@ -252,6 +252,7 @@ export interface InstagramPostInsight {
   type?: string
   permalink?: string
   caption: string
+  thumbnail?: string
   reach?: number
   views?: number
   likes?: number

@@ -21,6 +21,7 @@ import {
   FileText,
   Camera,
   Folder,
+  Globe,
   FolderOpen,
   FolderPlus,
   GraduationCap,
@@ -3162,6 +3163,7 @@ function App() {
               variant={mode === 'website' ? 'default' : 'ghost'}
               onClick={() => setMode('website')}
             >
+              <Globe data-icon="inline-start" />
               Website
             </Button>
             <Button
@@ -3210,16 +3212,20 @@ function App() {
               </Button>
             ) : null}
             {mode === 'instagram'
-              ? INSTAGRAM_SCREENS.map((s) => (
-                  <Button
-                    key={s.key}
-                    type="button"
-                    variant={igScreen === s.key ? 'default' : 'ghost'}
-                    onClick={() => setIgScreen(s.key)}
-                  >
-                    {s.label}
-                  </Button>
-                ))
+              ? INSTAGRAM_SCREENS.map((screen) => {
+                  const Icon = screen.icon
+                  return (
+                    <Button
+                      key={screen.key}
+                      type="button"
+                      variant={igScreen === screen.key ? 'default' : 'ghost'}
+                      onClick={() => setIgScreen(screen.key)}
+                    >
+                      <Icon data-icon="inline-start" />
+                      {screen.label}
+                    </Button>
+                  )
+                })
               : null}
           </nav>
 

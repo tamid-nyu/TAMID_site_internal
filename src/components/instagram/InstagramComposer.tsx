@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { AdminApiClient } from '@/lib/adminApi'
-import { AdminApiError } from '@/lib/adminApi'
+import { AdminApiError, fileToBase64 } from '@/lib/adminApi'
 import type { CaptionCheck } from '@/lib/adminTypes'
+import { Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -32,6 +33,10 @@ const HOOK_LIMIT = 125 // Instagram truncates roughly here in the feed.
 const CAPTION_LIMIT = 2200 // Instagram's hard maximum.
 const HASHTAG_LIMIT = 30 // Instagram rejects posts above this.
 const DRAFT_KEY = 'tamid-admin:instagram-draft'
+
+// Uploads reuse the existing public flyers bucket rather than adding new
+// infrastructure; the instagram/ prefix keeps them separate from real flyers.
+const STORAGE_BUCKET = 'event-flyers'
 
 type Props = { api: AdminApiClient; onPublished?: () => void }
 
@@ -84,7 +89,7 @@ export function InstagramComposer({ api, onPublished }: Props) {
   const [check, setCheck] = useState<CaptionCheck | null>(null)
   const [creationId, setCreationId] = useState('')
   const [stagedSnapshot, setStagedSnapshot] = useState<Draft | null>(null)
-  const [busy, setBusy] = useState<'' | 'checking' | 'staging' | 'publishing'>('')
+  const [busy, setBusy] = useState<'' | 'uploading' | 'checking' | 'staging' | 'publishing'>('')
   const [error, setError] = useState('')
   const [publishedUrl, setPublishedUrl] = useState('')
   const [confirmOpen, setConfirmOpen] = useState(false)
@@ -122,6 +127,43 @@ export function InstagramComposer({ api, onPublished }: Props) {
       setStagedSnapshot(null)
     }
   }, [staleStaging])
+
+  const fileInput = useRef<HTMLInputElement>(null)
+
+  /**
+   * Uploads a chosen file to Supabase storage and uses the resulting public URL.
+   *
+   * Instagram fetches the image itself, so it needs a public URL rather than a
+   * local file — the same reason board headshots and event flyers go through
+   * storage. Posts land under an `instagram/` prefix in the event-flyers bucket
+   * so they stay distinguishable from real flyers.
+   */
+  const upload = async (file: File) => {
+    if (file.type !== 'image/jpeg') {
+      setError('Instagram feed posts must be JPEG. Convert the image and try again.')
+      return
+    }
+    setBusy('uploading')
+    setError('')
+    try {
+      const contentBase64 = await fileToBase64(file)
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-')
+      const path = `instagram/${Date.now()}-${safeName}`
+      const result = await api.uploadStorageObject(STORAGE_BUCKET, {
+        path,
+        contentBase64,
+        contentType: file.type,
+        upsert: true,
+      })
+      setImageUrl(result.publicUrl)
+      setImageOk(null)
+      setPublishedUrl('')
+    } catch (err) {
+      setError(humanise(errorMessage(err)))
+    } finally {
+      setBusy('')
+    }
+  }
 
   const firstLine = caption.split('\n')[0] ?? ''
   const words = caption.trim() ? caption.trim().split(/\s+/).length : 0
@@ -202,7 +244,31 @@ export function InstagramComposer({ api, onPublished }: Props) {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="ig-image">Image URL</Label>
+            <Label htmlFor="ig-upload">Image</Label>
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                ref={fileInput}
+                id="ig-upload"
+                type="file"
+                accept="image/jpeg"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) void upload(file)
+                  e.target.value = ''
+                }}
+              />
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => fileInput.current?.click()}
+                disabled={busy !== ''}
+              >
+                <Upload data-icon="inline-start" />
+                {busy === 'uploading' ? 'Uploading…' : 'Upload image'}
+              </Button>
+              <span className="text-muted-foreground text-xs">or paste a public URL</span>
+            </div>
             <Input
               id="ig-image"
               placeholder="https://…/post.jpg"
@@ -214,8 +280,9 @@ export function InstagramComposer({ api, onPublished }: Props) {
               }}
             />
             <p className="text-muted-foreground text-xs">
-              Public HTTPS JPEG — Instagram downloads it directly, so it cannot require a login. PNG
-              is rejected for feed posts.
+              Uploads go to Supabase storage and get a public URL automatically. Instagram downloads
+              the image itself, so a pasted URL must be public, and must be JPEG — PNG is rejected
+              for feed posts.
             </p>
             {imageOk === false ? (
               <p className="text-destructive text-xs">
