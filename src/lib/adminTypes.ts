@@ -175,3 +175,53 @@ export type AdminResourceRow =
   BoardMember | Event | Member | Semester | ContactRequest | NewsletterSignup | SiteConfigItem
 
 export type ResourcePayload = Record<string, string | number | boolean | null>
+
+export interface InstagramAccount {
+  username: string
+  name?: string
+  followers_count?: number
+  media_count?: number
+  profile_picture_url?: string
+}
+
+export interface InstagramStatus {
+  connected: boolean
+  account?: InstagramAccount
+  error?: string
+}
+
+export interface InstagramMedia {
+  id: string
+  caption?: string
+  media_type?: string
+  permalink?: string
+  timestamp?: string
+  like_count?: number
+  comments_count?: number
+}
+
+export interface CaptionCheck {
+  ok: boolean
+  blocking: string[]
+  warnings: string[]
+  words: number
+  hashtags: number
+}
+
+export interface InstagramStaged {
+  creationId: string
+  published: boolean
+  captionCheck: CaptionCheck
+}
+
+export interface InstagramPublished {
+  published: boolean
+  id: string
+  permalink?: string
+  timestamp?: string
+}
+
+export interface InstagramQuota {
+  config?: { quota_total?: number; quota_duration?: number }
+  quota_usage?: number
+}

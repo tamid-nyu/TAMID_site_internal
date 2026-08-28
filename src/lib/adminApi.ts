@@ -12,6 +12,12 @@ import type {
   StorageObject,
   StorageUpdateBody,
   StorageUploadBody,
+  InstagramStatus,
+  InstagramMedia,
+  InstagramStaged,
+  InstagramPublished,
+  InstagramQuota,
+  CaptionCheck,
 } from './adminTypes'
 
 type AdminErrorKind = 'unauthenticated' | 'forbidden' | 'request'
@@ -449,6 +455,54 @@ export class AdminApiClient {
       `storage/buckets/${encodeURIComponent(bucketId)}/objects`,
       { method: 'DELETE', body }
     )
+    return response.data
+  }
+
+  async getInstagramStatus(): Promise<InstagramStatus> {
+    const response = await this.request<ApiEnvelope<InstagramStatus>>('instagram/status')
+    return response.data
+  }
+
+  async listInstagramPosts(limit = 12): Promise<InstagramMedia[]> {
+    const response = await this.request<ApiEnvelope<InstagramMedia[]>>(
+      `instagram/recent${toQueryString({ limit })}`
+    )
+    return response.data
+  }
+
+  async checkInstagramCaption(caption: string): Promise<CaptionCheck> {
+    const response = await this.request<ApiEnvelope<CaptionCheck>>('instagram/check-caption', {
+      method: 'POST',
+      body: { caption },
+    })
+    return response.data
+  }
+
+  async getInstagramQuota(): Promise<InstagramQuota[]> {
+    const response = await this.request<ApiEnvelope<InstagramQuota[]>>('instagram/limit')
+    return response.data
+  }
+
+  /** Builds the post without publishing it. Nothing is visible on the account yet. */
+  async stageInstagramPost(body: { imageUrl: string; caption: string }): Promise<InstagramStaged> {
+    this.assertWritesAllowed()
+    const response = await this.request<ApiEnvelope<InstagramStaged>>('instagram/stage', {
+      method: 'POST',
+      body,
+    })
+    return response.data
+  }
+
+  /**
+   * Publishes a staged post to the live account. Public and irreversible —
+   * `confirm` is required by the backend and reflects a deliberate human action.
+   */
+  async publishInstagramPost(creationId: string): Promise<InstagramPublished> {
+    this.assertWritesAllowed()
+    const response = await this.request<ApiEnvelope<InstagramPublished>>('instagram/publish', {
+      method: 'POST',
+      body: { creationId, confirm: true },
+    })
     return response.data
   }
 

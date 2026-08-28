@@ -19,6 +19,7 @@ import {
   FileArchive,
   FileImage,
   FileText,
+  Camera,
   Folder,
   FolderOpen,
   FolderPlus,
@@ -45,6 +46,7 @@ import {
 import { toast } from 'sonner'
 import { supabase } from './lib/supabase'
 import { ADMIN_IDLE_TIMEOUT_MS, useIdleSignOut } from './lib/useIdleSignOut'
+import { InstagramPanel } from './components/InstagramPanel'
 import { AdminApiClient, AdminApiError, createAdminApiClient, fileToBase64 } from './lib/adminApi'
 import type { LocalProductionSafetyStatus } from './lib/adminApi'
 import {
@@ -166,7 +168,7 @@ interface ResourceConfig {
   }
 }
 
-type ActiveSection = AdminResourceKey | 'overview' | 'storage'
+type ActiveSection = AdminResourceKey | 'overview' | 'storage' | 'instagram'
 
 const RESOURCE_CONFIGS: ResourceConfig[] = [
   {
@@ -3142,6 +3144,14 @@ function App() {
                     <Folder data-icon="inline-start" />
                     Storage
                   </Button>
+                  <Button
+                    type="button"
+                    variant={activeSection === 'instagram' ? 'default' : 'ghost'}
+                    onClick={() => requestMobileNavigation('instagram')}
+                  >
+                    <Camera data-icon="inline-start" />
+                    Instagram
+                  </Button>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -3176,6 +3186,14 @@ function App() {
             >
               <Folder data-icon="inline-start" />
               Storage
+            </Button>
+            <Button
+              type="button"
+              variant={activeSection === 'instagram' ? 'default' : 'ghost'}
+              onClick={() => requestNavigation('instagram')}
+            >
+              <Camera data-icon="inline-start" />
+              Instagram
             </Button>
           </nav>
 
@@ -3262,6 +3280,10 @@ function App() {
           ) : null}
           {canLoadAdminScreens && activeSection === 'storage' ? (
             <StorageScreen api={api} onAdminError={handleAdminError} readOnly={isReadOnly} />
+          ) : null}
+
+          {canLoadAdminScreens && activeSection === 'instagram' ? (
+            <InstagramPanel api={api} />
           ) : null}
         </section>
       </main>
