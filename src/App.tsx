@@ -2677,6 +2677,9 @@ function OverviewScreen({
   const [events, setEvents] = useState<AdminEvent[]>([])
   const [siteConfig, setSiteConfig] = useState<SiteConfigItem[]>([])
   const [mentorshipUrl, setMentorshipUrl] = useState('')
+  const [cycleLabel, setCycleLabel] = useState('')
+  const [cycleDeadline, setCycleDeadline] = useState('')
+  const [cycleNote, setCycleNote] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [savingKey, setSavingKey] = useState<string | null>(null)
 
@@ -2702,9 +2705,11 @@ function OverviewScreen({
       if (resource.key === 'site-config') {
         const configRows = rows as SiteConfigItem[]
         setSiteConfig(configRows)
-        setMentorshipUrl(
-          configRows.find((item) => item.key === 'mentorship_application_url')?.value ?? ''
-        )
+        const valueOf = (key: string) => configRows.find((item) => item.key === key)?.value ?? ''
+        setMentorshipUrl(valueOf('mentorship_application_url'))
+        setCycleLabel(valueOf('application_cycle_label'))
+        setCycleDeadline(valueOf('application_deadline'))
+        setCycleNote(valueOf('application_note'))
       }
     }
     setCounts(nextCounts)
@@ -2816,8 +2821,11 @@ function OverviewScreen({
 
         <Card>
           <CardHeader>
-            <CardTitle>Mentorship settings</CardTitle>
-            <CardDescription>Common site configuration without leaving Overview.</CardDescription>
+            <CardTitle>Applications</CardTitle>
+            <CardDescription>
+              What the public Apply page shows. The switch flips the page between open and closed;
+              the rest only appears while applications are open.
+            </CardDescription>
           </CardHeader>
           <CardContent className="quick-config">
             <div className="switch-row">
@@ -2857,6 +2865,59 @@ function OverviewScreen({
                 </Button>
               </div>
             </div>
+            {(
+              [
+                {
+                  key: 'application_cycle_label',
+                  id: 'application-cycle-label',
+                  label: 'Cycle label',
+                  hint: 'Shown in the heading, e.g. Fall 2026',
+                  value: cycleLabel,
+                  set: setCycleLabel,
+                },
+                {
+                  key: 'application_deadline',
+                  id: 'application-deadline',
+                  label: 'Deadline (as it should read)',
+                  hint: 'e.g. Friday, September 26 at 11:59 PM',
+                  value: cycleDeadline,
+                  set: setCycleDeadline,
+                },
+                {
+                  key: 'application_note',
+                  id: 'application-note',
+                  label: 'Note',
+                  hint: 'One optional line under the open copy, e.g. info session details',
+                  value: cycleNote,
+                  set: setCycleNote,
+                },
+              ] as const
+            ).map((field) => (
+              <div className="quick-config-url" key={field.key}>
+                <Label htmlFor={field.id}>{field.label}</Label>
+                <div>
+                  <Input
+                    id={field.id}
+                    type="text"
+                    placeholder={field.hint}
+                    value={field.value}
+                    disabled={readOnly}
+                    onChange={(event) => field.set(event.target.value)}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={readOnly || savingKey === field.key}
+                    onClick={() => void saveConfig(field.key, field.value.trim())}
+                  >
+                    {savingKey === field.key ? (
+                      <Loader2 data-icon="inline-start" className="animate-spin" />
+                    ) : null}
+                    Save
+                  </Button>
+                </div>
+              </div>
+            ))}
             <Button type="button" variant="ghost" onClick={() => onNavigate('site-config')}>
               Open all site config
               <ExternalLink data-icon="inline-end" />
