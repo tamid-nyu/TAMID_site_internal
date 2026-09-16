@@ -2966,17 +2966,20 @@ function OverviewScreen({
               </div>
             </div>
             <div className="quick-config-url">
-              <Label htmlFor="attendance-events">Attendance events (check-in site)</Label>
+              <Label htmlFor="attendance-events">Member meetings (check-in site)</Label>
               <p>
-                One per line as <code>Event | members or candidates</code>. Add <code>| dated</code>
-                for recurring meetings so each check-in is tagged with the date. Drives the dropdown
-                at attendance.nyutamid.org and decides which sheet the row goes to.
+                One per line as <code>Event | members</code>, add <code>| dated</code> for recurring
+                meetings so each check-in is tagged with the date. Recruitment events on the
+                check-in dropdown come from the recruitment schedule above; these are the
+                member-only ones.
               </p>
               <div>
                 <Textarea
                   id="attendance-events"
                   rows={7}
-                  placeholder={'Info Session 1 | candidates\nGeneral Meeting | members | dated'}
+                  placeholder={
+                    'General Meeting | members | dated\nFund Track Meeting | members | dated'
+                  }
                   value={attendanceEvents}
                   disabled={readOnly}
                   onChange={(event) => setAttendanceEvents(event.target.value)}
