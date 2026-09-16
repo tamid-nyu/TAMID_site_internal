@@ -2682,6 +2682,7 @@ function OverviewScreen({
   const [cycleNote, setCycleNote] = useState('')
   const [coffeeChatUrl, setCoffeeChatUrl] = useState('')
   const [recruitmentSchedule, setRecruitmentSchedule] = useState('')
+  const [attendanceEvents, setAttendanceEvents] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [savingKey, setSavingKey] = useState<string | null>(null)
 
@@ -2714,6 +2715,7 @@ function OverviewScreen({
         setCycleNote(valueOf('application_note'))
         setCoffeeChatUrl(valueOf('coffee_chat_url'))
         setRecruitmentSchedule(valueOf('recruitment_schedule'))
+        setAttendanceEvents(valueOf('attendance_events'))
       }
     }
     setCounts(nextCounts)
@@ -2960,6 +2962,35 @@ function OverviewScreen({
                     <Loader2 data-icon="inline-start" className="animate-spin" />
                   ) : null}
                   Save schedule
+                </Button>
+              </div>
+            </div>
+            <div className="quick-config-url">
+              <Label htmlFor="attendance-events">Attendance events (check-in site)</Label>
+              <p>
+                One per line as <code>Event | members or candidates</code>. Add <code>| dated</code>
+                for recurring meetings so each check-in is tagged with the date. Drives the dropdown
+                at attendance.nyutamid.org and decides which sheet the row goes to.
+              </p>
+              <div>
+                <Textarea
+                  id="attendance-events"
+                  rows={7}
+                  placeholder={'Info Session 1 | candidates\nGeneral Meeting | members | dated'}
+                  value={attendanceEvents}
+                  disabled={readOnly}
+                  onChange={(event) => setAttendanceEvents(event.target.value)}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={readOnly || savingKey === 'attendance_events'}
+                  onClick={() => void saveConfig('attendance_events', attendanceEvents.trim())}
+                >
+                  {savingKey === 'attendance_events' ? (
+                    <Loader2 data-icon="inline-start" className="animate-spin" />
+                  ) : null}
+                  Save events
                 </Button>
               </div>
             </div>
