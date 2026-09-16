@@ -2681,6 +2681,7 @@ function OverviewScreen({
   const [cycleDeadline, setCycleDeadline] = useState('')
   const [cycleNote, setCycleNote] = useState('')
   const [coffeeChatUrl, setCoffeeChatUrl] = useState('')
+  const [recruitmentSchedule, setRecruitmentSchedule] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [savingKey, setSavingKey] = useState<string | null>(null)
 
@@ -2712,6 +2713,7 @@ function OverviewScreen({
         setCycleDeadline(valueOf('application_deadline'))
         setCycleNote(valueOf('application_note'))
         setCoffeeChatUrl(valueOf('coffee_chat_url'))
+        setRecruitmentSchedule(valueOf('recruitment_schedule'))
       }
     }
     setCounts(nextCounts)
@@ -2929,6 +2931,38 @@ function OverviewScreen({
                 </div>
               </div>
             ))}
+            <div className="quick-config-url">
+              <Label htmlFor="recruitment-schedule">Recruitment schedule</Label>
+              <p>
+                One event per line as <code>Title | When | Where</code>. Where is optional. Shown on
+                the Apply page while applications are open.
+              </p>
+              <div>
+                <Textarea
+                  id="recruitment-schedule"
+                  rows={6}
+                  placeholder={
+                    'Info session | Tuesday 9/15, 7 PM | KMC 2-60\nApplications due | Thursday 9/24, 11:59 PM'
+                  }
+                  value={recruitmentSchedule}
+                  disabled={readOnly}
+                  onChange={(event) => setRecruitmentSchedule(event.target.value)}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={readOnly || savingKey === 'recruitment_schedule'}
+                  onClick={() =>
+                    void saveConfig('recruitment_schedule', recruitmentSchedule.trim())
+                  }
+                >
+                  {savingKey === 'recruitment_schedule' ? (
+                    <Loader2 data-icon="inline-start" className="animate-spin" />
+                  ) : null}
+                  Save schedule
+                </Button>
+              </div>
+            </div>
             <Button type="button" variant="ghost" onClick={() => onNavigate('site-config')}>
               Open all site config
               <ExternalLink data-icon="inline-end" />
