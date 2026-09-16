@@ -2680,6 +2680,7 @@ function OverviewScreen({
   const [cycleLabel, setCycleLabel] = useState('')
   const [cycleDeadline, setCycleDeadline] = useState('')
   const [cycleNote, setCycleNote] = useState('')
+  const [coffeeChatUrl, setCoffeeChatUrl] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [savingKey, setSavingKey] = useState<string | null>(null)
 
@@ -2710,6 +2711,7 @@ function OverviewScreen({
         setCycleLabel(valueOf('application_cycle_label'))
         setCycleDeadline(valueOf('application_deadline'))
         setCycleNote(valueOf('application_note'))
+        setCoffeeChatUrl(valueOf('coffee_chat_url'))
       }
     }
     setCounts(nextCounts)
@@ -2824,7 +2826,8 @@ function OverviewScreen({
             <CardTitle>Applications</CardTitle>
             <CardDescription>
               What the public Apply page shows. The switch flips the page between open and closed;
-              the rest only appears while applications are open.
+              cycle label, deadline and note only appear while open. The coffee chat link shows in
+              both states.
             </CardDescription>
           </CardHeader>
           <CardContent className="quick-config">
@@ -2882,6 +2885,14 @@ function OverviewScreen({
                   hint: 'e.g. Friday, September 26 at 11:59 PM',
                   value: cycleDeadline,
                   set: setCycleDeadline,
+                },
+                {
+                  key: 'coffee_chat_url',
+                  id: 'coffee-chat-url',
+                  label: 'Coffee chat form URL',
+                  hint: 'Shown as a second button on the Apply page, open or closed',
+                  value: coffeeChatUrl,
+                  set: setCoffeeChatUrl,
                 },
                 {
                   key: 'application_note',
